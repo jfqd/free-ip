@@ -27,7 +27,7 @@ class FreeIp < ActiveRecord::Base
             uniqueness: true,
             case_sensitive: false
   validates :description,
-            presence: false
+            presence: false,
             format: {
               with: /\A[\w -]+\z/,
               message: "only allows letters, numbers and space"
