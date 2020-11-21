@@ -28,10 +28,10 @@ class FreeIp < ActiveRecord::Base
             case_sensitive: false
   validates :description,
             presence: false
-            # format: {
-            #   with: /\A[\w -]+\z/,
-            #   message: "only allows letters, numbers and space"
-            # }
+            format: {
+              with: /\A[\w -]+\z/,
+              message: "only allows letters, numbers and space"
+            }
 end
 
 class String
@@ -41,15 +41,15 @@ class String
 end
 
 # get a free ip by a given type
-get '/get/:type/:routable/:description' do
+get '/get/:version/:routable/:description' do
   begin
-    type = params[:type]
+    version = params[:version]
     routable = params[:routable]
     description = params[:description].blank? ? '' : params[:description]
-    if type == "ipv4" || type == "ipv6" &&
+    if version == "ipv4" || version == "ipv6" &&
        routable == "true" || routable == "false"
       ActiveRecord::Base.clear_active_connections!
-      free_ip = FreeIp.where(active: false, type: type, routable: routable).
+      free_ip = FreeIp.where(active: false, version: version, routable: routable).
                        order(created_at: :asc).
                        first
       free_ip.active = true
