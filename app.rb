@@ -7,6 +7,8 @@ require 'erb'
 
 Dotenv.load ".env.#{ENV["RACK_ENV"] || "production"}", '.env'
 
+PLAIN_TEXT = {'Content-Type' => 'text/plain'}
+
 set :database, Hash.new.tap { |hash|
   YAML::load( File.open('config/database.yml') ).each do |key, value|
     renderer = ERB.new(value)
