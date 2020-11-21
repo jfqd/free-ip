@@ -26,8 +26,7 @@ end
 class FreeIp < ActiveRecord::Base
   validates :ip,
             presence: true,
-            uniqueness: true,
-            case_sensitive: false
+            uniqueness: { case_sensitive: false }
   validates :description,
             presence: false,
             format: {
