@@ -2,6 +2,8 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/activerecord'
+require 'resolv'
+require 'ipaddress'
 require 'dotenv'
 require 'erb'
 
@@ -47,7 +49,7 @@ get '/get/:version/:routable/:description' do
     version = params[:version]
     routable = params[:routable]
     description = params[:description].blank? ? '' : params[:description]
-    if version == "ipv4" || version == "ipv6" &&
+    if version  == "ipv4" || version  == "ipv6" &&
        routable == "true" || routable == "false"
       ActiveRecord::Base.clear_active_connections!
       free_ip = FreeIp.where(active: false, version: version, routable: routable).
@@ -67,7 +69,29 @@ get '/get/:version/:routable/:description' do
 end
 
 put '/release/:ip' do
-  # validate ip and get type
+  begin
+    ip = params[:ip]
+    # validate ip address and get version
+    version = case ip
+      when Resolv::IPv4::Regex then :ipv4
+      when Resolv::IPv6::Regex then :ipv6
+    else
+      raise "wrong ip-type"
+    end
+    # ipv6-address need to be compressed
+    if version == :ipv6 && ip !~ Resolv::IPv6::Regex_CompressedHex
+      ip = IPAddress::IPv6.compress ip
+    end
+    ActiveRecord::Base.clear_active_connections!
+    free_ip = FreeIp.where(ip: ip).first
+    free_ip.active = false
+    free_ip.description = ""
+    free_ip.save!
+    halt 200, PLAIN_TEXT, "#{free_ip.ip} released\n"
+  rescue Exception => e
+    logger.warn "[free-ip] Rescue: #{e.message}"
+    halt 400
+  end
 end
 
 get "/*" do

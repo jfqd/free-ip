@@ -6,5 +6,6 @@ gem 'sinatra'
 gem 'activerecord', '>= 6.0'
 gem 'sinatra-activerecord'
 gem "mysql2"
+gem "ipaddress"
 gem "dotenv"
 gem 'rake'
