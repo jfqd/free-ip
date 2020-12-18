@@ -94,6 +94,14 @@ put '/release/:ip' do
   end
 end
 
+get "/robots.txt" do
+  %{User-agent: *\nDisallow: /}
+end
+
+get '/ping' do
+  halt 200, PLAIN_TEXT, 'pong'
+end
+
 get "/*" do
   halt 403
 end
