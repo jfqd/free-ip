@@ -85,7 +85,7 @@ put '/release/:ip' do
     ActiveRecord::Base.clear_active_connections!
     free_ip = FreeIp.where(ip: ip).first
     free_ip.active = false
-    free_ip.description = ""
+    free_ip.description = "-"
     free_ip.save!
     halt 200, PLAIN_TEXT, "#{free_ip.ip} released\n"
   rescue Exception => e
