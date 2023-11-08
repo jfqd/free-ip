@@ -51,7 +51,7 @@ get '/get/:version/:routable/:description' do
     description = params[:description].blank? ? '' : params[:description]
     if version  == "ipv4" || version  == "ipv6" &&
        routable == "true" || routable == "false"
-      ActiveRecord::Base.clear_active_connections!
+      ActiveRecord::Base.connection_handler.clear_active_connections!
       free_ip = FreeIp.where(active: false, version: version, routable: routable).
                        order(created_at: :asc).
                        first
@@ -82,7 +82,7 @@ put '/release/:ip' do
     if version == :ipv6 && ip !~ Resolv::IPv6::Regex_CompressedHex
       ip = IPAddress::IPv6.compress ip
     end
-    ActiveRecord::Base.clear_active_connections!
+    ActiveRecord::Base.connection_handler.clear_active_connections!
     free_ip = FreeIp.where(ip: ip).first
     free_ip.active = false
     free_ip.description = "-"
