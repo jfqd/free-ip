@@ -31,7 +31,7 @@ GEM
     ipaddress (0.8.3)
     json (2.16.0)
     logger (1.7.0)
-    minitest (5.26.0)
+    minitest (5.26.1)
     mustermann (3.0.4)
       ruby2_keywords (~> 0.0.1)
     mysql2 (0.5.7)
