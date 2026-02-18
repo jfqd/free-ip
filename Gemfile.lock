@@ -29,7 +29,7 @@ GEM
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     ipaddress (0.8.3)
-    json (2.18.0)
+    json (2.18.1)
     logger (1.7.0)
     minitest (6.0.1)
       prism (~> 1.5)
@@ -37,8 +37,8 @@ GEM
       ruby2_keywords (~> 0.0.1)
     mysql2 (0.5.7)
       bigdecimal
-    prism (1.8.0)
-    rack (3.2.4)
+    prism (1.9.0)
+    rack (3.2.5)
     rack-protection (4.2.1)
       base64 (>= 0.1.0)
       logger (>= 1.6.0)
@@ -81,4 +81,4 @@ RUBY VERSION
    ruby 3.1.3p185
 
 BUNDLED WITH
-   2.4.19
+   2.7.2
